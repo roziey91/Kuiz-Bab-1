@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuiz Alat Domestik Tradisional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .question-card {
+            transition: all 0.3s ease;
+        }
+        .option-btn {
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .correct {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .incorrect {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-4xl">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">🏺 Kuiz Alat Domestik Tradisional</h1>
+            <p class="text-gray-600 text-lg">Uji pengetahuan anda tentang alat-alat tradisional Melayu</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="bg-white rounded-full p-1 mb-8 shadow-lg">
+            <div class="bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full progress-bar" style="width: 0%"></div>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="start-container" class="bg-white rounded-2xl shadow-xl p-8 text-center">
+            <div class="text-6xl mb-6">📚</div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Selamat Datang ke Kuiz Alat Domestik Tradisional</h2>
+            <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                Kuiz ini mengandungi <strong>5 soalan</strong> tentang alat-alat domestik tradisional Melayu seperti rehal, kukuran, acuan putu, dan jebak puyuh.
+            </p>
+            <div class="bg-blue-50 rounded-xl p-6 mb-6">
+                <h3 class="font-semibold text-blue-800 mb-2">📋 Arahan:</h3>
+                <ul class="text-blue-700 text-left space-y-1">
+                    <li>• Pilih jawapan yang paling tepat untuk setiap soalan</li>
+                    <li>• Anda boleh menggunakan butang "Sebelum" dan "Seterusnya" untuk navigasi</li>
+                    <li>• Markah akan dikira secara automatik</li>
+                    <li>• Penjelasan akan diberikan untuk setiap jawapan</li>
+                </ul>
+            </div>
+            <button onclick="startQuiz()" class="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-green-600 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 text-lg">
+                🚀 Mula Kuiz
+            </button>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quiz-container" class="hidden bg-white rounded-2xl shadow-xl p-8 question-card">
+            <!-- Question will be inserted here -->
+        </div>
+
+        <!-- Results Container -->
+        <div id="results-container" class="hidden bg-white rounded-2xl shadow-xl p-8">
+            <div class="text-center">
+                <div class="text-6xl mb-4" id="result-emoji">🎉</div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Tahniah! Kuiz Selesai</h2>
+                
+                <!-- Final Score Display -->
+                <div class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-2xl p-6 mb-6">
+                    <div class="text-lg font-medium mb-2">Jumlah Markah Anda:</div>
+                    <div class="text-6xl font-bold mb-2" id="final-score">0/5</div>
+                    <div class="text-xl" id="percentage-score">0%</div>
+                </div>
+                
+                <p class="text-gray-600 text-lg mb-6" id="score-message">Prestasi yang baik!</p>
+                
+                <!-- Score Breakdown -->
+                <div class="bg-gray-50 rounded-xl p-6 mb-6">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Ringkasan Jawapan:</h3>
+                    <div id="answer-summary" class="space-y-2">
+                        <!-- Answer summary will be inserted here -->
+                    </div>
+                </div>
+
+                <button onclick="restartQuiz()" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-8 py-3 rounded-xl font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105">
+                    🔄 Mula Semula
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "Apakah fungsi utama rehal?",
+                options: [
+                    "Alat untuk menghiris kelapa",
+                    "Alat untuk menumbuk rempah",
+                    "Alat sokongan untuk meletakkan Al-Quran",
+                    "Alat untuk mengukir kayu"
+                ],
+                correct: 2,
+                explanation: "Rehal adalah alat sokongan tradisional yang digunakan untuk meletakkan Al-Quran semasa membaca."
+            },
+            {
+                question: "Apakah kukuran?",
+                options: [
+                    "Sejenis perabot hiasan",
+                    "Sejenis alat yang digunakan untuk memarut isi kelapa",
+                    "Alat muzik tradisional",
+                    "Alat untuk membuat kuih"
+                ],
+                correct: 1,
+                explanation: "Kukuran adalah alat tradisional yang digunakan untuk memarut isi kelapa dalam masakan Melayu."
+            },
+            {
+                question: "Corak hiasan yang sering ditemui pada acuan putu adalah bermotifkan flora dan fauna. Apakah contoh motif flora yang digunakan?",
+                options: [
+                    "Motif geometri dan kaligrafi",
+                    "Motif bunga dan daun",
+                    "Motif haiwan dan serangga",
+                    "Motif abstrak"
+                ],
+                correct: 1,
+                explanation: "Motif flora pada acuan putu biasanya terdiri daripada motif bunga dan daun yang indah."
+            },
+            {
+                question: "Apakah teknik yang digunakan untuk menghasilkan corak pada jebak puyuh?",
+                options: [
+                    "Ukiran timbul",
+                    "Ukiran tembus",
+                    "Anyaman",
+                    "Tebuk tembus bersilat"
+                ],
+                correct: 3,
+                explanation: "Jebak puyuh menggunakan teknik tebuk tembus bersilat untuk menghasilkan corak yang menarik."
+            },
+            {
+                question: "Berdasarkan teks, manakah antara berikut yang BUKAN merupakan alat domestik tradisional yang disebutkan?",
+                options: [
+                    "Rehal",
+                    "Kukuran",
+                    "Jebak Puyuh",
+                    "Gendang"
+                ],
+                correct: 3,
+                explanation: "Gendang adalah alat muzik tradisional, bukan alat domestik seperti yang lain."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = [];
+        let questionAnswered = false;
+
+        function startQuiz() {
+            document.getElementById('start-container').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('quiz-container');
+            
+            // Update progress bar
+            const progress = ((currentQuestion) / questions.length) * 100;
+            document.querySelector('.progress-bar').style.width = progress + '%';
+            
+            container.innerHTML = `
+                <div class="mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="text-sm font-medium text-gray-500">Soalan ${currentQuestion + 1} daripada ${questions.length}</span>
+                        <span class="text-sm font-medium text-blue-600">Skor: ${score}/${questions.length}</span>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">${question.question}</h2>
+                </div>
+                
+                <div class="space-y-3 mb-6">
+                    ${question.options.map((option, index) => `
+                        <button onclick="selectAnswer(${index})" 
+                                class="option-btn w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 font-medium">
+                            <span class="inline-block w-8 h-8 bg-gray-100 rounded-full text-center leading-8 mr-3 font-semibold text-gray-600">
+                                ${String.fromCharCode(65 + index)}
+                            </span>
+                            ${option}
+                        </button>
+                    `).join('')}
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <div class="flex justify-between items-center pt-4 border-t border-gray-200">
+                    <button onclick="previousQuestion()" 
+                            class="flex items-center px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${currentQuestion === 0 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}"
+                            ${currentQuestion === 0 ? 'disabled' : ''}>
+                        ⬅️ Sebelum
+                    </button>
+                    
+                    <div class="text-center">
+                        <div class="text-sm text-gray-500 mb-1">Markah Semasa</div>
+                        <div class="text-2xl font-bold text-blue-600">${score}/${questions.length}</div>
+                    </div>
+                    
+                    <button onclick="nextQuestion()" 
+                            class="flex items-center px-6 py-3 rounded-xl font-semibold bg-blue-500 text-white hover:bg-blue-600 transition-all duration-200"
+                            id="next-btn" disabled style="opacity: 0.5; cursor: not-allowed;">
+                        Seterusnya ➡️
+                    </button>
+                </div>
+            `;
+        }
+
+        function selectAnswer(selectedIndex) {
+            if (questionAnswered) return;
+            
+            const question = questions[currentQuestion];
+            const buttons = document.querySelectorAll('.option-btn');
+            
+            // Disable all buttons
+            buttons.forEach(btn => btn.style.pointerEvents = 'none');
+            
+            // Show correct/incorrect
+            buttons.forEach((btn, index) => {
+                if (index === question.correct) {
+                    btn.classList.add('correct');
+                } else if (index === selectedIndex && index !== question.correct) {
+                    btn.classList.add('incorrect');
+                }
+            });
+            
+            // Store user answer (update if already exists)
+            const existingIndex = userAnswers.findIndex(answer => answer.questionIndex === currentQuestion);
+            const answerData = {
+                questionIndex: currentQuestion,
+                question: question.question,
+                selected: selectedIndex,
+                correct: question.correct,
+                isCorrect: selectedIndex === question.correct,
+                explanation: question.explanation
+            };
+            
+            if (existingIndex >= 0) {
+                // Update existing answer
+                const wasCorrect = userAnswers[existingIndex].isCorrect;
+                userAnswers[existingIndex] = answerData;
+                
+                // Adjust score
+                if (wasCorrect && !answerData.isCorrect) {
+                    score--;
+                } else if (!wasCorrect && answerData.isCorrect) {
+                    score++;
+                }
+            } else {
+                // New answer
+                userAnswers.push(answerData);
+                if (selectedIndex === question.correct) {
+                    score++;
+                }
+            }
+            
+            questionAnswered = true;
+            
+            // Enable next button
+            const nextBtn = document.getElementById('next-btn');
+            nextBtn.disabled = false;
+            nextBtn.style.opacity = '1';
+            nextBtn.style.cursor = 'pointer';
+            
+            // Show explanation
+            setTimeout(() => {
+                const container = document.getElementById('quiz-container');
+                const explanationDiv = document.createElement('div');
+                explanationDiv.innerHTML = `
+                    <div class="mt-6 p-4 bg-blue-50 rounded-xl border-l-4 border-blue-400">
+                        <p class="text-blue-800 font-medium">💡 Penjelasan:</p>
+                        <p class="text-blue-700 mt-1">${question.explanation}</p>
+                    </div>
+                `;
+                container.appendChild(explanationDiv);
+            }, 1000);
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                questionAnswered = false;
+                displayQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            questionAnswered = false;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            // Update progress bar to 100%
+            document.querySelector('.progress-bar').style.width = '100%';
+            
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('results-container').classList.remove('hidden');
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            let emoji, message;
+            
+            if (percentage >= 80) {
+                emoji = '🏆';
+                message = 'Cemerlang! Anda sangat memahami alat domestik tradisional!';
+            } else if (percentage >= 60) {
+                emoji = '🎉';
+                message = 'Bagus! Pengetahuan anda tentang alat tradisional adalah baik!';
+            } else {
+                emoji = '📚';
+                message = 'Teruskan belajar! Masih ada ruang untuk penambahbaikan.';
+            }
+            
+            document.getElementById('result-emoji').textContent = emoji;
+            document.getElementById('final-score').textContent = `${score}/${questions.length}`;
+            document.getElementById('percentage-score').textContent = `${percentage}%`;
+            document.getElementById('score-message').textContent = message;
+            
+            // Show answer summary
+            const summaryContainer = document.getElementById('answer-summary');
+            summaryContainer.innerHTML = userAnswers
+                .sort((a, b) => a.questionIndex - b.questionIndex)
+                .map((answer, index) => `
+                <div class="flex items-center justify-between p-3 rounded-lg ${answer.isCorrect ? 'bg-green-100' : 'bg-red-100'}">
+                    <span class="font-medium">Soalan ${answer.questionIndex + 1}</span>
+                    <span class="text-2xl">${answer.isCorrect ? '✅' : '❌'}</span>
+                </div>
+            `).join('');
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = [];
+            questionAnswered = false;
+            document.getElementById('results-container').classList.add('hidden');
+            document.getElementById('start-container').classList.remove('hidden');
+            document.querySelector('.progress-bar').style.width = '0%';
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9832ec5de1e97a7f',t:'MTc1ODU1NTg2My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
